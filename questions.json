@@ -1,0 +1,17 @@
+[
+    {
+        "question": "What is the capital of France?",
+        "options": ["A. London", "B. Paris", "C. Rome", "D. Berlin"],
+        "answer": "B"
+    },
+    {
+        "question": "What does python stands for?",
+        "options": ["A. Snake", "B. Programming language", "C. Both", "D. None"],
+        "answer": "B"
+    },
+    {
+        "question": "What is 10 + 5 * 2?",
+        "options": ["A. 30", "B. 25", "C. 20", "D. 15"],
+        "answer": "C"
+    }
+]
