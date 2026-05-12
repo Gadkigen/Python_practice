@@ -21,7 +21,7 @@ def save_highscore(name, score):
 
 def show_highscores():
     highscores = load_highscores()
-    print("\n HIGH SCORES")
+    print("\n 🏆HIGH SCORES 🏆")
     if not highscores:
         print("No scores yet.")
     for i, entry in enumerate(highscores[:5], 1):
@@ -36,7 +36,7 @@ def play_quiz():
         print(f"\nq{i}: {q['question']}")
         for option in q["options"]:
             print(option)
-        print("⏲️ You have 5 seconds!")
+        print("⏲️ You have 10 seconds!")
 
         answer = [None]
         def get_input():

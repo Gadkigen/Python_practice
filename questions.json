@@ -13,5 +13,29 @@
         "question": "What is 10 + 5 * 2?",
         "options": ["A. 30", "B. 25", "C. 20", "D. 15"],
         "answer": "C"
+    },
+    {
+        
+        "question": "who was the firt presdent of Kenya?",
+        "options": ["A. Raila ", "B. Moi", "C. Kenyatta", "D. Ruto"],
+        "answer": "C"
+    },
+    {
+        
+        "question": "How many bones does human body have?",
+        "options": ["A. 300", "B. 106", "C. 150", "D. 206"],
+        "answer": "D"
+    },
+    {
+        
+        "question": "How many letters does the alphabet have?",
+        "options": ["A. 30", "B. 25", "C. 26", "D. 15"],
+        "answer": "C"
+    },
+    {
+        
+        "question": "Have any one landed on moon?",
+        "options": ["A. Yes", "B. Not sure", "C. Apollo 11", "D. No"],
+        "answer": "D"
     }
 ]
