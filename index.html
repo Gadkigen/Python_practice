@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Game</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f093fb, #f5576c, #4facfe, #00f2fe);
+      background-size: 400% 400%;
+      animation: gradient 8s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      color: white;
+      text-align: center;
+    }
+
+    h1 { font-size: 2rem; margin-bottom: 10px; }
+
+    #timer {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fff;
+      margin: 10px 0;
+    }
+
+    #timer.danger { color: #ff4444; animation: pulse 0.5s infinite; }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    #question {
+      font-size: 1.3rem;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .option {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: left;
+    }
+
+    .option:hover { background: rgba(255,255,255,0.4); transform: scale(1.02); }
+    .option.correct { background: #00c853; }
+    .option.wrong { background: #d50000; }
+
+    #progress {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    #score-board {
+      display: none;
+    }
+
+    #score-board h2 { font-size: 2rem; margin-bottom: 20px; }
+
+    .highscore-item {
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 10px 20px;
+      margin: 8px 0;
+      font-size: 1.1rem;
+    }
+
+    #restart {
+      margin-top: 20px;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: #f5576c;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    #restart:hover { transform: scale(1.05); }
+
+    #name-screen { text-align: center; }
+    #name-screen h1 { font-size: 2.5rem; margin-bottom: 30px; }
+    #name-input {
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.1rem;
+      width: 80%;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #start-btn {
+      padding: 15px 40px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: #f5576c;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Name Screen -->
+  <div id="name-screen">
+    <h1>🎮 Quiz Game</h1>
+    <p>Test your knowledge!</p>
+    <br>
+    <input type="text" id="name-input" placeholder="Enter your name...">
+    <br>
+    <button id="start-btn" onclick="startQuiz()">Start Quiz 🚀</button>
+  </div>
+
+  <!-- Quiz Screen -->
+  <div id="quiz-screen" style="display:none;">
+    <div id="progress"></div>
+    <div id="timer">⏱️ 10</div>
+    <div id="question"></div>
+    <div id="options"></div>
+  </div>
+
+  <!-- Score Screen -->
+  <div id="score-board">
+    <h2>🏆 Game Over!</h2>
+    <p id="final-score" style="font-size:1.5rem; margin-bottom:20px;"></p>
+    <h3>🥇 High Scores</h3>
+    <div id="highscores-list"></div>
+    <button id="restart" onclick="location.reload()">Play Again 🔄</button>
+  </div>
+
+</div>
+
+<script>
+  const questions = [
+    {
+      question: "What is the capital of France?",
+      options: ["A. London", "B. Paris", "C. Rome", "D. Berlin"],
+      answer: "B"
+    },
+    {
+      question: "What does Python stand for?",
+      options: ["A. Snake", "B. Programming language", "C. Both", "D. None"],
+      answer: "B"
+    },
+    {
+      question: "What is 10 + 5 * 2?",
+      options: ["A. 30", "B. 25", "C. 20", "D. 15"],
+      answer: "C"
+    },
+    {
+        
+        "question": "who was the firt presdent of Kenya?",
+        "options": ["A. Raila ", "B. Moi", "C. Kenyatta", "D. Ruto"],
+        "answer": "C"
+    },
+    {
+        
+        "question": "How many bones does human body have?",
+        "options": ["A. 300", "B. 106", "C. 150", "D. 206"],
+        "answer": "D"
+    },
+    {
+        
+        "question": "How many letters does the alphabet have?",
+        "options": ["A. 30", "B. 25", "C. 26", "D. 15"],
+        "answer": "C"
+    },
+    {
+        
+        "question": "Have any one landed on moon?",
+        "options": ["A. Yes", "B. Not sure", "C. Apollo 11", "D. No"],
+        "answer": "D"
+    }
+  ];
+
+  let current = 0;
+  let score = 0;
+  let timer;
+  let playerName = "";
+  let highscores = JSON.parse(localStorage.getItem("highscores") || "[]");
+
+  function startQuiz() {
+    playerName = document.getElementById("name-input").value || "Player";
+    document.getElementById("name-screen").style.display = "none";
+    document.getElementById("quiz-screen").style.display = "block";
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    if (current >= questions.length) {
+      endGame();
+      return;
+    }
+    clearInterval(timer);
+    let timeLeft = 10;
+    const timerEl = document.getElementById("timer");
+    timerEl.classList.remove("danger");
+    timerEl.textContent = "⏱️ " + timeLeft;
+
+    const q = questions[current];
+    document.getElementById("progress").textContent =
+      `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("question").textContent = q.question;
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    q.options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.textContent = opt;
+      btn.onclick = () => selectAnswer(opt[0], btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    timer = setInterval(() => {
+      timeLeft--;
+      timerEl.textContent = "⏱️ " + timeLeft;
+      if (timeLeft <= 3) timerEl.classList.add("danger");
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        timerEl.textContent = "⏰ Time's up!";
+        disableOptions();
+        setTimeout(() => { current++; loadQuestion(); }, 1500);
+      }
+    }, 1000);
+  }
+
+  function selectAnswer(selected, btn) {
+    clearInterval(timer);
+    const correct = questions[current].answer;
+    disableOptions();
+    if (selected === correct) {
+      btn.classList.add("correct");
+      score++;
+    } else {
+      btn.classList.add("wrong");
+      document.querySelectorAll(".option").forEach(b => {
+        if (b.textContent[0] === correct) b.classList.add("correct");
+      });
+    }
+    setTimeout(() => { current++; loadQuestion(); }, 1500);
+  }
+
+  function disableOptions() {
+    document.querySelectorAll(".option").forEach(b => b.disabled = true);
+  }
+
+  function endGame() {
+    document.getElementById("quiz-screen").style.display = "none";
+    document.getElementById("score-board").style.display = "block";
+    document.getElementById("final-score").textContent =
+      `${playerName} scored ${score}/${questions.length}`;
+
+    highscores.push({ name: playerName, score: score });
+    highscores.sort((a, b) => b.score - a.score);
+    highscores = highscores.slice(0, 5);
+    localStorage.setItem("highscores", JSON.stringify(highscores));
+
+    const list = document.getElementById("highscores-list");
+    list.innerHTML = "";
+    highscores.forEach((h, i) => {
+      list.innerHTML += `<div class="highscore-item">${i+1}. ${h.name} - ${h.score}</div>`;
+    });
+  }
+</script>
+</body>
+</html>
