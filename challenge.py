@@ -9,4 +9,4 @@ elif op == "-":
 elif op == "/":
     print("Result:", num1 / num2)
 elif op == "*":
-    print("Result:", num1 * num2)l
+    print("Result:", num1 * num2)

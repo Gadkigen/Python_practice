@@ -1,0 +1,28 @@
+.{
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    width: 100%;
+    background: url(road.jpg);
+    background-position:center;
+    background-size:cover;
+    height: 109vh;
+    backface-visibility: hidden;
+}
+
+body{
+    color: crimson;
+    font-weight: 400;
+    font-weight: 300;
+    padding-left: 50px;
+    margin-right: 25px;
+}
+
+.logo{
+    color: chartreuse;
+    width: 100%;
+    position: relative;
+    height: auto;
+}
